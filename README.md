@@ -33,21 +33,31 @@ npm run build
 
 ## Browser tests
 
-Playwright smoke tests cover all six routes at 320, 375, 768, 1024, 1280 and 1440 CSS pixels. They also check mobile navigation, Escape and focus recovery, workspace selection, and profile validation.
+Playwright covers all six routes at 320, 375, 768, 1024, 1280 and 1440 CSS pixels. It also checks native Offcanvas / keyboard focus, workspace selection, form validation, fixed preview dimensions, pointer affordances and action icons.
+
+By default, tests run in Chromium:
 
 ```bash
 npx playwright install chromium
 npm run test:e2e
 ```
 
-Chromium is the default browser. To additionally run on Firefox and WebKit, install those browsers and opt in:
+For the **full three-browser matrix**, first install all browsers, then enable Chromium, Firefox and WebKit explicitly. That tests **108 route × viewport × engine combinations** plus the additional functional checks. If any browser is missing, the run fails instead of silently omitting a browser.
 
 ```bash
-npx playwright install firefox webkit
-FULL_BROWSER_MATRIX=true npm run test:e2e
+npx playwright install chromium firefox webkit
+FULL_BROWSER_MATRIX=true npm run test:e2e -- --workers=1
 ```
 
-Only executed checks should be reported as passed; installing a browser does not imply successful results.
+PowerShell equivalent (after installing the browsers):
+
+```powershell
+$env:FULL_BROWSER_MATRIX = "true"
+npm run test:e2e -- --workers=1
+Remove-Item Env:FULL_BROWSER_MATRIX
+```
+
+Playwright WebKit tests the WebKit engine, not the Safari application on Apple hardware. Only checks actually executed should be reported as passed.
 
 ## Routes
 
