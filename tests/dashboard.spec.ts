@@ -82,6 +82,8 @@ for (const width of widths) {
         await page.goto(route);
         await expect(page.getByTestId("dashboard-shell")).toBeVisible();
         await expect(page.getByRole("main")).toBeVisible();
+        const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+        expect(scrollWidth, "Page must not overflow horizontally").toBeLessThanOrEqual(width + 1);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         const breadcrumbs = page.getByTestId("dashboard-breadcrumbs");
         await expect(breadcrumbs).toBeVisible();

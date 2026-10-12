@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "lint": "eslint src",
     "test:e2e": "playwright test",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "check:e2e": "tsc -p tsconfig.e2e.json --noEmit"
   },
   "dependencies": {
     "bootstrap": "5.3.8",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@playwright/test": "1.63.0",
     "@types/bootstrap": "5.2.11",
+    "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.2",
