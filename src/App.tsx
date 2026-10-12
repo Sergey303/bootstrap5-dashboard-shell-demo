@@ -19,7 +19,11 @@ export function App() {
           {dashboardRoutes.map((route) => (
             <Link
               key={route.path}
-              className={pathname === route.path ? "btn btn-primary btn-sm" : "btn btn-outline-secondary btn-sm"}
+              className={
+                pathname === route.path
+                  ? "btn btn-primary btn-sm"
+                  : "btn btn-outline-secondary btn-sm"
+              }
               to={route.path}
               aria-current={pathname === route.path ? "page" : undefined}
             >

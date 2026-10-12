@@ -10,7 +10,10 @@
     "dev": "vite",
     "check": "tsc --noEmit",
     "build": "npm run check && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "test:e2e": "playwright test",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
     "bootstrap": "5.3.8",
@@ -19,10 +22,17 @@
     "react-router-dom": "7.18.4"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/bootstrap": "5.2.11",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.2",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "prettier": "3.9.10",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.71.1",
     "vite": "8.3.4"
   }
 }
