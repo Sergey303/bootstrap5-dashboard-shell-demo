@@ -1,4 +1,5 @@
 import { useId, useRef, useState, type FormEvent } from "react";
+import { RotateCcw, Save } from "lucide-react";
 import { defaultProfessionalProfile, type ProfessionalProfile } from "./professionalProfile";
 
 type Errors = Partial<Record<keyof ProfessionalProfile, string>>;
@@ -183,10 +184,19 @@ export function ProfessionalProfileForm() {
         </div>
       </div>
       <div className="d-flex flex-wrap gap-2 border-top pt-4 mt-4">
-        <button className="btn btn-primary" type="submit" data-testid="profile-submit">
+        <button
+          className="btn btn-primary d-inline-flex align-items-center gap-2"
+          type="submit"
+          data-testid="profile-submit"
+        >
+          <Save size={16} aria-hidden="true" />
           Сохранить изменения
         </button>
-        <button className="btn btn-outline-secondary" type="reset">
+        <button
+          className="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
+          type="reset"
+        >
+          <RotateCcw size={16} aria-hidden="true" />
           Сбросить к исходным
         </button>
       </div>

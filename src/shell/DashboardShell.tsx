@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Offcanvas from "bootstrap/js/dist/offcanvas";
+import { Menu } from "lucide-react";
 import "./DashboardShell.css";
 
 interface DashboardShellProps {
@@ -75,7 +76,7 @@ export function DashboardShell({
         <div className="dashboard-shell-brand-row">
           <button
             type="button"
-            className="btn btn-outline-secondary dashboard-shell-toggle d-lg-none"
+            className="btn btn-outline-secondary dashboard-shell-toggle d-lg-none align-items-center justify-content-center"
             data-bs-toggle="offcanvas"
             data-bs-target={`#${id}`}
             aria-controls={id}
@@ -83,7 +84,7 @@ export function DashboardShell({
             aria-label={mobileMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
             data-testid="mobile-toggle"
           >
-            <span aria-hidden="true">☰</span>
+            <Menu size={20} aria-hidden="true" />
           </button>
           <Link to="/dashboard" className="dashboard-shell-brand">
             <span className="dashboard-shell-brand-mark" aria-hidden="true">

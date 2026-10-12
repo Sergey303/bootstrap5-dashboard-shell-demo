@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Pencil } from "lucide-react";
 import { defaultProfessionalProfile, demoIdentity } from "../forms/professionalProfile";
 
 export function ProfilePage() {
@@ -53,7 +54,11 @@ export function ProfilePage() {
                 <dd className="col-sm-8">Гибридный</dd>
               </dl>
               <p className="text-secondary">{defaultProfessionalProfile.bio}</p>
-              <Link className="btn btn-outline-primary" to="/dashboard/profile/professional">
+              <Link
+                className="btn btn-outline-primary d-inline-flex align-items-center gap-2"
+                to="/dashboard/profile/professional"
+              >
+                <Pencil size={16} aria-hidden="true" />
                 Редактировать профессиональный профиль
               </Link>
             </div>

@@ -1,0 +1,15 @@
+.settings-page .form-switch .form-check-input,
+.settings-page .form-switch .form-check-label {
+  cursor: pointer;
+}
+
+.settings-preview-sample {
+  block-size: 15rem;
+  overflow-y: auto;
+}
+
+.settings-preview-status {
+  min-block-size: 2.625rem;
+  display: flex;
+  align-items: center;
+}

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { ContextActivity, ContextMetrics, ContextSummary } from "../context/ContextSummary";
 import { useWorkContext } from "../context/WorkContextProvider";
 
@@ -21,8 +22,12 @@ export function DashboardHomePage() {
                 Перед следующей встречей проверьте открытые вопросы и подготовьте материалы для
                 обсуждения.
               </p>
-              <Link className="btn btn-primary" to="/dashboard/overview">
+              <Link
+                className="btn btn-primary d-inline-flex align-items-center gap-2"
+                to="/dashboard/overview"
+              >
                 Перейти к обзору
+                <ArrowRight size={17} aria-hidden="true" />
               </Link>
             </div>
           </section>

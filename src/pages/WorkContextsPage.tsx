@@ -1,3 +1,4 @@
+import { ArrowRight, CircleCheck } from "lucide-react";
 import { ContextSummary } from "../context/ContextSummary";
 import { useWorkContext } from "../context/WorkContextProvider";
 
@@ -30,10 +31,15 @@ export function WorkContextsPage() {
                   </p>
                   <button
                     type="button"
-                    className={`btn mt-auto ${active ? "btn-primary" : "btn-outline-primary"}`}
+                    className={`btn mt-auto d-inline-flex align-items-center justify-content-center gap-2 ${active ? "btn-primary" : "btn-outline-primary"}`}
                     aria-pressed={active}
                     onClick={() => setActiveContext(context.id)}
                   >
+                    {active ? (
+                      <CircleCheck size={16} aria-hidden="true" />
+                    ) : (
+                      <ArrowRight size={16} aria-hidden="true" />
+                    )}
                     {active ? "Выбран" : `Выбрать: ${context.name}`}
                   </button>
                 </div>
