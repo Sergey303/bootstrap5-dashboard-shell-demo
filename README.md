@@ -2,6 +2,26 @@
 
 Compact, frontend-only dashboard demonstrating how to extend an existing React and Bootstrap 5 application without replacing its UI foundation.
 
+## Demo
+
+### Desktop
+
+Workspace switching, page navigation, profile editing and display settings.
+
+[![Desktop dashboard demo showing workspace switching, navigation, profile editing and settings](docs/media/desktop-demo.gif)](docs/media/desktop-demo.gif)
+
+[Open the desktop GIF at full resolution](docs/media/desktop-demo.gif).
+
+### Mobile
+
+Responsive pages and the mobile navigation drawer.
+
+<a href="docs/media/mobile-demo.gif">
+  <img src="docs/media/mobile-demo.gif" width="320" alt="Mobile dashboard demo showing navigation, profile pages and the professional profile form">
+</a>
+
+[Open the mobile GIF at full resolution](docs/media/mobile-demo.gif).
+
 ## Features
 
 - Responsive layout: desktop sidebar and **native Bootstrap 5 Offcanvas** on mobile.
