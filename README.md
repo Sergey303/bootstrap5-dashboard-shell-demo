@@ -20,7 +20,7 @@ No backend, authentication, RBAC, API, persistence or real customer data is incl
 
 1. Open `/dashboard` to see the shared shell, sidebar, breadcrumbs and workspace overview.
 2. Open **Work contexts** and select a different workspace; the current context updates in the header and dashboard.
-3. Navigate to **Profile → Professional profile**, edit a field and submit the form to see client-side validation and feedback.
+3. Navigate to **Profile → Professional profile**, edit a field, save and return to **Profile** to see the updated values. Entering an invalid experience value (for example, 123 years) shows an immediate error.
 4. Open **Settings** and toggle the compact-card and description options. The preview updates without resizing its surrounding panels.
 
 **Mobile (about 15 seconds)**
@@ -29,7 +29,8 @@ No backend, authentication, RBAC, API, persistence or real customer data is incl
 2. Open the Bootstrap Offcanvas navigation, choose a page and see the menu close.
 3. Open it again and press **Escape** to close it and restore keyboard focus.
 
-All data is fictitious. Form edits are local to the demo page, and workspace selection is held in memory.
+All data is fictitious. Saving the professional profile updates its read-only view within the
+current browser session (until a full page reload). Workspace selection is also held in memory.
 
 ## Code map
 
@@ -67,9 +68,9 @@ npm run build
 
 Last locally verified: **12 October 2026**, on the demo repository.
 
-- **207/207 Playwright tests passed** across Chromium, Firefox and WebKit (69 per engine).
-- The suite includes **108 route × viewport × engine combinations** (6 routes × 6 widths × 3 engines), plus **99 additional interaction and layout tests**.
-- Checks cover navigation, mobile Offcanvas and focus restoration, profile validation, workspace selection, the settings preview, button feedback, and natural page scrolling.
+- **219/219 Playwright tests passed** across Chromium, Firefox and WebKit (73 per engine).
+- The suite includes **108 route × viewport × engine combinations** (6 routes × 6 widths × 3 engines), plus **111 additional interaction and layout tests**.
+- Checks cover navigation, mobile Offcanvas and focus restoration, profile save-to-view behavior, immediate experience validation, workspace selection, the settings preview, button feedback, and natural page scrolling.
 - TypeScript checks, ESLint, Prettier and the Vite production build passed.
 
 These are results for this standalone demo, **not** an acceptance report for another application's requirements. Lighthouse scores have **not** been measured. Playwright's WebKit engine is not the Safari browser on Apple hardware.
@@ -119,7 +120,7 @@ Playwright WebKit tests the WebKit engine, not the Safari application on Apple h
 - **One shared shell** in `src/shell/` provides responsive layout and accepts navigation, breadcrumbs, context selection and page content as slots.
 - **Bootstrap-first UI:** the navigation drawer uses the Bootstrap Offcanvas JavaScript API and releases instances/listeners when unmounted. CSS overrides are narrowly scoped.
 - **Feature boundaries:** navigation, forms, context state and individual pages remain separate.
-- **Predictable data flow:** workspace state lives in a typed React context. Form state lives in its own component. Changes are ephemeral and reset when the page reloads.
+- **Predictable data flow:** workspace state lives in a typed React context. Unsaved form edits live in the form, while the saved profile lives in a shared React context. Changes are ephemeral and reset when the page reloads.
 - **Verification:** TypeScript, ESLint, production build and Playwright browser checks.
 
 This is an independent demonstration with invented data, not an implementation of a private customer project.
