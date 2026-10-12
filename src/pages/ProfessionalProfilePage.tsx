@@ -4,7 +4,6 @@ export function ProfessionalProfilePage() {
   return (
     <section aria-labelledby="professional-profile-title">
       <div className="mb-4">
-        <p className="text-secondary small mb-2">Личный кабинет / Профиль</p>
         <h1 id="professional-profile-title" className="h3 mb-2">
           Профессиональный профиль
         </h1>

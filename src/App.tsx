@@ -1,46 +1,46 @@
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ScaffoldPage } from "./pages/ScaffoldPage";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { WorkContextProvider } from "./context/WorkContextProvider";
+import { WorkContextSelector } from "./context/WorkContextSelector";
+import { DashboardBreadcrumbs } from "./navigation/DashboardBreadcrumbs";
+import { DashboardNavigation } from "./navigation/DashboardNavigation";
+import { DashboardHomePage } from "./pages/DashboardHomePage";
+import { OverviewPage } from "./pages/OverviewPage";
+import { ProfilePage } from "./pages/ProfilePage";
+import { ProfessionalProfilePage } from "./pages/ProfessionalProfilePage";
+import { SettingsPage } from "./pages/SettingsPage";
+import { WorkContextsPage } from "./pages/WorkContextsPage";
 import { dashboardRoutes } from "./routes";
+import { DashboardShell } from "./shell/DashboardShell";
+
+const pagesByPath = {
+  "/dashboard": <DashboardHomePage />,
+  "/dashboard/overview": <OverviewPage />,
+  "/dashboard/profile": <ProfilePage />,
+  "/dashboard/profile/professional": <ProfessionalProfilePage />,
+  "/dashboard/work-contexts": <WorkContextsPage />,
+  "/dashboard/settings": <SettingsPage />,
+};
 
 export function App() {
-  const { pathname } = useLocation();
-
   return (
-    <div className="min-vh-100 bg-body-tertiary">
-      <header className="bg-white border-bottom">
-        <div className="container py-3">
-          <Link className="fw-semibold text-decoration-none" to="/dashboard">
-            Dashboard Shell · Bootstrap 5
-          </Link>
-        </div>
-      </header>
-      <div className="container py-4">
-        <nav className="d-flex flex-wrap gap-2 mb-4" aria-label="Маршруты демо">
+    <WorkContextProvider>
+      <DashboardShell
+        navigation={<DashboardNavigation />}
+        breadcrumbs={<DashboardBreadcrumbs />}
+        workContext={<WorkContextSelector />}
+      >
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           {dashboardRoutes.map((route) => (
-            <Link
+            <Route
               key={route.path}
-              className={
-                pathname === route.path
-                  ? "btn btn-primary btn-sm"
-                  : "btn btn-outline-secondary btn-sm"
-              }
-              to={route.path}
-              aria-current={pathname === route.path ? "page" : undefined}
-            >
-              {route.label}
-            </Link>
+              path={route.path}
+              element={pagesByPath[route.path as keyof typeof pagesByPath]}
+            />
           ))}
-        </nav>
-        <main className="bg-white border rounded-3 p-4">
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            {dashboardRoutes.map((route) => (
-              <Route key={route.path} path={route.path} element={<ScaffoldPage route={route} />} />
-            ))}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </main>
-      </div>
-    </div>
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </DashboardShell>
+    </WorkContextProvider>
   );
 }

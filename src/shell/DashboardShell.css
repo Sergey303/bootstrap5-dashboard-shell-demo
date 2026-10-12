@@ -72,15 +72,6 @@
   min-width: 0;
 }
 
-.dashboard-shell-section-label {
-  margin-bottom: 1rem;
-  color: #64748b;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .dashboard-shell-main {
   flex: 1;
   min-width: 0;

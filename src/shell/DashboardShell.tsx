@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Offcanvas from "bootstrap/js/dist/offcanvas";
 import "./DashboardShell.css";
@@ -19,6 +19,7 @@ export function DashboardShell({
   pageTitle,
 }: DashboardShellProps) {
   const navigationRef = useRef<HTMLDivElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const id = `dashboard-navigation-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const location = useLocation();
 
@@ -26,8 +27,14 @@ export function DashboardShell({
     const element = navigationRef.current;
     if (!element) return;
     const instance = Offcanvas.getOrCreateInstance(element);
+    const onShown = () => setMobileMenuOpen(true);
+    const onHidden = () => setMobileMenuOpen(false);
+    element.addEventListener("shown.bs.offcanvas", onShown);
+    element.addEventListener("hidden.bs.offcanvas", onHidden);
 
     return () => {
+      element.removeEventListener("shown.bs.offcanvas", onShown);
+      element.removeEventListener("hidden.bs.offcanvas", onHidden);
       // Bootstrap must finish its transition before its instance is disposed.
       if (element.classList.contains("showing")) {
         element.addEventListener("hidden.bs.offcanvas", () => instance.dispose(), {
@@ -72,7 +79,8 @@ export function DashboardShell({
             data-bs-toggle="offcanvas"
             data-bs-target={`#${id}`}
             aria-controls={id}
-            aria-label="Открыть меню навигации"
+            aria-expanded={mobileMenuOpen}
+            aria-label={mobileMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
             data-testid="mobile-toggle"
           >
             <span aria-hidden="true">☰</span>
@@ -109,17 +117,12 @@ export function DashboardShell({
           </div>
           <div className="offcanvas-body dashboard-shell-sidebar-body">
             <div className="dashboard-shell-navigation" data-testid="desktop-navigation">
-              <p className="dashboard-shell-section-label d-none d-lg-block">
-                Рабочее пространство
-              </p>
               {navigation}
             </div>
           </div>
         </div>
         <main id={`${id}-main`} className="dashboard-shell-main" tabIndex={-1}>
-          <div className="dashboard-shell-breadcrumbs" data-testid="dashboard-breadcrumbs">
-            {breadcrumbs}
-          </div>
+          <div className="dashboard-shell-breadcrumbs">{breadcrumbs}</div>
           {pageTitle && <h1 className="dashboard-shell-title">{pageTitle}</h1>}
           <div className="dashboard-shell-content">{children}</div>
         </main>
