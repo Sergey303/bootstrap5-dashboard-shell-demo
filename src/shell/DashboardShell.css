@@ -1,7 +1,15 @@
 .dashboard-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
   color: #243247;
   background: #f5f7fa;
+}
+
+.dashboard-shell-layout {
+  flex: 1;
+  min-width: 0;
 }
 
 .dashboard-shell-topbar {
@@ -135,7 +143,6 @@
 @media (min-width: 992px) {
   .dashboard-shell-layout {
     display: flex;
-    min-height: calc(100vh - 4.375rem);
   }
 
   .dashboard-shell-sidebar {
