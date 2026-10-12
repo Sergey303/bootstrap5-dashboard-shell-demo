@@ -31,7 +31,7 @@ export function WorkContextsPage() {
                   </p>
                   <button
                     type="button"
-                    className={`btn mt-auto d-inline-flex align-items-center justify-content-center gap-2 ${active ? "btn-primary" : "btn-outline-primary"}`}
+                    className={`btn mt-auto align-self-center mw-100 d-inline-flex align-items-center justify-content-center gap-2 ${active ? "btn-primary" : "btn-outline-primary"}`}
                     aria-pressed={active}
                     onClick={() => setActiveContext(context.id)}
                   >
