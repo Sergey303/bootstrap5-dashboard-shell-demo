@@ -14,6 +14,37 @@ Compact, frontend-only dashboard demonstrating how to extend an existing React a
 
 No backend, authentication, RBAC, API, persistence or real customer data is included.
 
+## Quick walkthrough
+
+**Desktop (about 30–40 seconds)**
+
+1. Open `/dashboard` to see the shared shell, sidebar, breadcrumbs and workspace overview.
+2. Open **Work contexts** and select a different workspace; the current context updates in the header and dashboard.
+3. Navigate to **Profile → Professional profile**, edit a field and submit the form to see client-side validation and feedback.
+4. Open **Settings** and toggle the compact-card and description options. The preview updates without resizing its surrounding panels.
+
+**Mobile (about 15 seconds)**
+
+1. Switch the viewport to 375 × 812 CSS pixels and open `/dashboard`.
+2. Open the Bootstrap Offcanvas navigation, choose a page and see the menu close.
+3. Open it again and press **Escape** to close it and restore keyboard focus.
+
+All data is fictitious. Form edits are local to the demo page, and workspace selection is held in memory.
+
+## Code map
+
+For a focused source review, these are the best starting points:
+
+| Concern | Implementation |
+| --- | --- |
+| Responsive shell and native Bootstrap Offcanvas | [`src/shell/DashboardShell.tsx`](src/shell/DashboardShell.tsx) |
+| Shared route registry | [`src/routes.ts`](src/routes.ts) |
+| Navigation and breadcrumbs | [`src/navigation/`](src/navigation/) |
+| Typed workspace state and selector | [`src/context/`](src/context/) |
+| Form state and validation | [`src/forms/ProfessionalProfileForm.tsx`](src/forms/ProfessionalProfileForm.tsx) |
+| Lightweight button ripple | [`src/ui/buttonRipple.ts`](src/ui/buttonRipple.ts) |
+| Browser, interaction and layout tests | [`tests/`](tests/) |
+
 ## Run locally
 
 Requires Node.js `^20.19.0 || >=22.12.0` and npm.
@@ -31,6 +62,17 @@ npm run check:e2e
 npm run lint
 npm run build
 ```
+
+## Latest verified result
+
+Last locally verified: **12 October 2026**, on the demo repository.
+
+- **207/207 Playwright tests passed** across Chromium, Firefox and WebKit (69 per engine).
+- The suite includes **108 route × viewport × engine combinations** (6 routes × 6 widths × 3 engines), plus **99 additional interaction and layout tests**.
+- Checks cover navigation, mobile Offcanvas and focus restoration, profile validation, workspace selection, the settings preview, button feedback, and natural page scrolling.
+- TypeScript checks, ESLint, Prettier and the Vite production build passed.
+
+These are results for this standalone demo, **not** an acceptance report for another application's requirements. Lighthouse scores have **not** been measured. Playwright's WebKit engine is not the Safari browser on Apple hardware.
 
 ## Browser tests
 
