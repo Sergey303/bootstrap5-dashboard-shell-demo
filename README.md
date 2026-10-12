@@ -10,6 +10,7 @@ Compact, frontend-only dashboard demonstrating how to extend an existing React a
 - Profile details and an editable professional profile with inline validation and accessible feedback.
 - Overview, activity and display settings using fictional demonstration data.
 - Semantic HTML, keyboard navigation and mobile-menu focus restoration.
+- Subtle action-button ripple feedback that respects reduced-motion preferences.
 
 No backend, authentication, RBAC, API, persistence or real customer data is included.
 

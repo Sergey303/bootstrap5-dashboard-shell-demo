@@ -2,6 +2,8 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Offcanvas from "bootstrap/js/dist/offcanvas";
 import { Menu } from "lucide-react";
+import { handleButtonRipple } from "../ui/buttonRipple";
+import "../ui/buttonRipple.css";
 import "./DashboardShell.css";
 
 interface DashboardShellProps {
@@ -68,7 +70,11 @@ export function DashboardShell({
   }, [location.key]);
 
   return (
-    <div className="dashboard-shell" data-testid="dashboard-shell">
+    <div
+      className="dashboard-shell"
+      data-testid="dashboard-shell"
+      onClickCapture={handleButtonRipple}
+    >
       <a className="dashboard-shell-skip" href={`#${id}-main`}>
         Перейти к содержимому
       </a>

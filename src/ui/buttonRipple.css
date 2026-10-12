@@ -1,0 +1,11 @@
+.dashboard-shell :is(button.btn, a.btn) {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-button-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: currentColor;
+}
