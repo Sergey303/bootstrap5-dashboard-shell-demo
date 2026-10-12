@@ -35,15 +35,15 @@ All data is fictitious. Form edits are local to the demo page, and workspace sel
 
 For a focused source review, these are the best starting points:
 
-| Concern | Implementation |
-| --- | --- |
-| Responsive shell and native Bootstrap Offcanvas | [`src/shell/DashboardShell.tsx`](src/shell/DashboardShell.tsx) |
-| Shared route registry | [`src/routes.ts`](src/routes.ts) |
-| Navigation and breadcrumbs | [`src/navigation/`](src/navigation/) |
-| Typed workspace state and selector | [`src/context/`](src/context/) |
-| Form state and validation | [`src/forms/ProfessionalProfileForm.tsx`](src/forms/ProfessionalProfileForm.tsx) |
-| Lightweight button ripple | [`src/ui/buttonRipple.ts`](src/ui/buttonRipple.ts) |
-| Browser, interaction and layout tests | [`tests/`](tests/) |
+| Concern                                         | Implementation                                                                   |
+| ----------------------------------------------- | -------------------------------------------------------------------------------- |
+| Responsive shell and native Bootstrap Offcanvas | [`src/shell/DashboardShell.tsx`](src/shell/DashboardShell.tsx)                   |
+| Shared route registry                           | [`src/routes.ts`](src/routes.ts)                                                 |
+| Navigation and breadcrumbs                      | [`src/navigation/`](src/navigation/)                                             |
+| Typed workspace state and selector              | [`src/context/`](src/context/)                                                   |
+| Form state and validation                       | [`src/forms/ProfessionalProfileForm.tsx`](src/forms/ProfessionalProfileForm.tsx) |
+| Lightweight button ripple                       | [`src/ui/buttonRipple.ts`](src/ui/buttonRipple.ts)                               |
+| Browser, interaction and layout tests           | [`tests/`](tests/)                                                               |
 
 ## Run locally
 
