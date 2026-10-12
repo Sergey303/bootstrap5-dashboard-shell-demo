@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import reactHooks from "eslint-plugin-react-hooks";
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import jsxA11y from "eslint-plugin-jsx-a11y-x";
 
 export default tseslint.config(
   { ignores: ["dist/**", "node_modules/**", "playwright-report/**", "test-results/**"] },
@@ -11,7 +11,7 @@ export default tseslint.config(
     files: ["src/**/*.{ts,tsx}"],
     plugins: {
       "react-hooks": reactHooks,
-      "jsx-a11y": jsxA11y,
+      "jsx-a11y-x": jsxA11y,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
