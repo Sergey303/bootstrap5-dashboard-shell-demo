@@ -1,38 +1,49 @@
 import { useId, useRef, useState, type FormEvent } from "react";
 import { RotateCcw, Save } from "lucide-react";
 import { defaultProfessionalProfile, type ProfessionalProfile } from "./professionalProfile";
+import { useProfile } from "../context/ProfileProvider";
 
 type Errors = Partial<Record<keyof ProfessionalProfile, string>>;
 
-function validate(values: ProfessionalProfile): Errors {
-  const errors: Errors = {};
-  if (!values.role.trim()) errors.role = "Укажите вашу должность.";
-  if (!values.specialization.trim()) errors.specialization = "Укажите специализацию.";
-  const years = Number(values.experience);
+function validateExperience(experience: string): string | undefined {
+  const years = Number(experience);
   if (
-    !values.experience.trim() ||
+    !experience.trim() ||
     !Number.isFinite(years) ||
     !Number.isInteger(years) ||
     years < 0 ||
     years > 50
   ) {
-    errors.experience = "Введите целое число от 0 до 50.";
+    return "Введите целое число от 0 до 50.";
   }
+  return undefined;
+}
+
+function validate(values: ProfessionalProfile): Errors {
+  const errors: Errors = {};
+  if (!values.role.trim()) errors.role = "Укажите вашу должность.";
+  if (!values.specialization.trim()) errors.specialization = "Укажите специализацию.";
+  const experienceError = validateExperience(values.experience);
+  if (experienceError) errors.experience = experienceError;
   if (values.bio.length > 240) errors.bio = "Сократите описание до 240 символов.";
   return errors;
 }
 
 export function ProfessionalProfileForm() {
+  const { profile, saveProfile } = useProfile();
   const prefix = useId();
   const formRef = useRef<HTMLFormElement>(null);
-  const [values, setValues] = useState<ProfessionalProfile>({ ...defaultProfessionalProfile });
+  const [values, setValues] = useState<ProfessionalProfile>(() => ({ ...profile }));
   const [errors, setErrors] = useState<Errors>({});
   const [feedback, setFeedback] = useState("");
 
   function update<K extends keyof ProfessionalProfile>(field: K, value: ProfessionalProfile[K]) {
     setValues((current) => ({ ...current, [field]: value }));
     setFeedback("");
-    setErrors((current) => ({ ...current, [field]: undefined }));
+    setErrors((current) => ({
+      ...current,
+      [field]: field === "experience" ? validateExperience(String(value)) : undefined,
+    }));
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -46,7 +57,8 @@ export function ProfessionalProfileForm() {
       if (control instanceof HTMLElement) control.focus();
       return;
     }
-    setFeedback("Сохранено локально в демо");
+    saveProfile({ ...values });
+    setFeedback("Изменения сохранены в демонстрационном профиле до перезагрузки страницы.");
   }
 
   function reset() {
@@ -84,8 +96,8 @@ export function ProfessionalProfileForm() {
       data-testid="professional-profile-form"
     >
       <p className="text-secondary small mb-4">
-        Обязательные поля отмечены звёздочкой (*). Данные доступны только на этой странице и
-        сбрасываются при её закрытии.
+        Обязательные поля отмечены звёздочкой (*). Сохранённые данные отображаются на странице
+        просмотра профиля до перезагрузки приложения.
       </p>
       <div className="row g-4">
         <div className="col-12 col-md-6">

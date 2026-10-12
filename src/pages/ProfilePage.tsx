@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Pencil } from "lucide-react";
-import { defaultProfessionalProfile, demoIdentity } from "../forms/professionalProfile";
+import { demoIdentity } from "../forms/professionalProfile";
+import { useProfile } from "../context/ProfileProvider";
 
 export function ProfilePage() {
+  const { profile } = useProfile();
+  const workFormatLabels = { hybrid: "Гибридный", office: "В офисе", remote: "Удалённый" };
   return (
     <section aria-labelledby="profile-title">
       <div className="mb-4">
@@ -34,7 +37,7 @@ export function ProfilePage() {
                 <dt className="small text-secondary fw-normal">Электронная почта</dt>
                 <dd className="text-break mb-3">{demoIdentity.email}</dd>
                 <dt className="small text-secondary fw-normal">Город</dt>
-                <dd className="mb-0">{defaultProfessionalProfile.city}</dd>
+                <dd className="mb-0">{profile.city}</dd>
               </dl>
             </div>
           </article>
@@ -45,15 +48,15 @@ export function ProfilePage() {
               <h2 className="h5 mb-4">Профессиональные сведения</h2>
               <dl className="row mb-2">
                 <dt className="col-sm-4 text-secondary fw-normal">Должность</dt>
-                <dd className="col-sm-8">{defaultProfessionalProfile.role}</dd>
+                <dd className="col-sm-8">{profile.role}</dd>
                 <dt className="col-sm-4 text-secondary fw-normal">Специализация</dt>
-                <dd className="col-sm-8">{defaultProfessionalProfile.specialization}</dd>
+                <dd className="col-sm-8">{profile.specialization}</dd>
                 <dt className="col-sm-4 text-secondary fw-normal">Опыт работы</dt>
-                <dd className="col-sm-8">{defaultProfessionalProfile.experience} лет</dd>
+                <dd className="col-sm-8">{profile.experience} лет</dd>
                 <dt className="col-sm-4 text-secondary fw-normal">Формат работы</dt>
-                <dd className="col-sm-8">Гибридный</dd>
+                <dd className="col-sm-8">{workFormatLabels[profile.workFormat]}</dd>
               </dl>
-              <p className="text-secondary">{defaultProfessionalProfile.bio}</p>
+              <p className="text-secondary">{profile.bio}</p>
               <Link
                 className="btn btn-outline-primary d-inline-flex align-items-center gap-2"
                 to="/dashboard/profile/professional"

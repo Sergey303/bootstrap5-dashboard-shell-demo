@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { WorkContextProvider } from "./context/WorkContextProvider";
+import { ProfileProvider } from "./context/ProfileProvider";
 import { WorkContextSelector } from "./context/WorkContextSelector";
 import { DashboardBreadcrumbs } from "./navigation/DashboardBreadcrumbs";
 import { DashboardNavigation } from "./navigation/DashboardNavigation";
@@ -24,23 +25,25 @@ const pagesByPath = {
 export function App() {
   return (
     <WorkContextProvider>
-      <DashboardShell
-        navigation={<DashboardNavigation />}
-        breadcrumbs={<DashboardBreadcrumbs />}
-        workContext={<WorkContextSelector />}
-      >
-        <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          {dashboardRoutes.map((route) => (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={pagesByPath[route.path as keyof typeof pagesByPath]}
-            />
-          ))}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </DashboardShell>
+      <ProfileProvider>
+        <DashboardShell
+          navigation={<DashboardNavigation />}
+          breadcrumbs={<DashboardBreadcrumbs />}
+          workContext={<WorkContextSelector />}
+        >
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            {dashboardRoutes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={pagesByPath[route.path as keyof typeof pagesByPath]}
+              />
+            ))}
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </DashboardShell>
+      </ProfileProvider>
     </WorkContextProvider>
   );
 }
