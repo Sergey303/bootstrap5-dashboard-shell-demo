@@ -1,0 +1,29 @@
+{
+  "name": "gosvetclinic-single-file-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/assert-single-file-dist.mjs",
+    "build:single": "vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "clean": "node scripts/clean-dist.mjs"
+  },
+  "dependencies": {
+    "primereact": "^10.9.6",
+    "primeicons": "^7.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.20",
+    "vite-plugin-singlefile": "^2.3.0"
+  }
+}

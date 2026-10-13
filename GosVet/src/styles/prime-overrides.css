@@ -1,0 +1,24 @@
+.p-card {
+  border-radius: 16px;
+  border: 1px solid var(--surface-border, var(--surface-d));
+  box-shadow: var(
+    --card-shadow,
+    0 10px 24px color-mix(in srgb, var(--text-color) 6%, var(--surface-card, var(--surface-a)))
+  );
+}
+
+.p-card .p-card-body {
+  padding: 1rem;
+}
+
+.p-button {
+  border-radius: 12px;
+}
+
+.p-tag {
+  border-radius: 999px;
+}
+
+.p-message {
+  border-radius: 12px;
+}

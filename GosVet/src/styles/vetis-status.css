@@ -1,0 +1,73 @@
+.vetis-status-card .p-card-title {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vetis-status-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: space-between;
+}
+
+.vetis-submission-list {
+  border: 1px solid var(--surface-border, var(--surface-d));
+  border-radius: 12px;
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.7rem;
+}
+
+.vetis-submission-item {
+  color: var(--text-color-secondary, var(--text-color));
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.vetis-error-card {
+  border-color: color-mix(in srgb, var(--red-500, var(--primary-color)) 45%, var(--surface-border, var(--surface-d)));
+}
+
+.vetis-error-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.vetis-error-item {
+  background: color-mix(in srgb, var(--red-500, var(--primary-color)) 7%, var(--surface-card, var(--surface-a)));
+  border: 1px solid color-mix(in srgb, var(--red-500, var(--primary-color)) 25%, var(--surface-border, var(--surface-d)));
+  border-radius: 12px;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem;
+}
+
+.vetis-error-item span {
+  color: var(--text-color);
+  line-height: 1.35;
+}
+
+.vetis-inline-status {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.vetis-required-hint {
+  align-items: center;
+  background: color-mix(in srgb, var(--primary-color) 7%, var(--surface-card, var(--surface-a)));
+  border: 1px solid color-mix(in srgb, var(--primary-color) 24%, var(--surface-border, var(--surface-d)));
+  border-radius: 10px;
+  color: var(--text-color-secondary, var(--text-color));
+  display: flex;
+  gap: 0.45rem;
+  line-height: 1.35;
+  padding: 0.55rem 0.65rem;
+}
+
+.vetis-required-hint i {
+  color: var(--primary-color);
+}

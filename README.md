@@ -1,15 +1,14 @@
 # Demo projects
 
-Independent frontend demos. Each application has its own `package.json`, toolchain, and build commands.
+Two independent frontend demos, each with its own dependencies and build.
 
-## Projects
+## Bootstrap 5 Dashboard Shell
 
-| Project | Description | Source |
-| --- | --- | --- |
-| [bootstrap5](bootstrap5/) | React + Bootstrap 5 dashboard shell, six routes, responsive navigation, editable profile, and Playwright tests | Included in this repository |
-| [GosVet](GosVet/) | Veterinary clinic single-file React demo built with PrimeReact | Private Git submodule from [Sergey303/GosVet](https://github.com/Sergey303/GosVet) |
+React, TypeScript, Vite and Bootstrap 5. Responsive dashboard with six routes, workspace switching, editable profile and Playwright tests.
 
-## Bootstrap 5
+- [Source and detailed instructions](bootstrap5/README.md)
+- [Desktop preview](bootstrap5/docs/media/desktop-demo.gif)
+- [Mobile preview](bootstrap5/docs/media/mobile-demo.gif)
 
 ```bash
 cd bootstrap5
@@ -17,43 +16,26 @@ npm ci
 npm run dev
 ```
 
-Run typechecking, lint and build from the same directory:
+## GosVet
+
+Veterinary-clinic demo, React and PrimeReact, with single-file build. Copied from the original [GosVet](https://github.com/Sergey303/GosVet) repository into [GosVet/](GosVet/) as regular versioned files. This directory is **not** a Git submodule.
 
 ```bash
-npm run check
-npm run lint
-npm run build
-```
-
-See [Bootstrap 5 demo README](bootstrap5/README.md) for screenshots, routes, and browser tests.
-
-## GosVet (private submodule)
-
-The `GosVet/` entry is a **Git submodule**, not a copy of its contents. The original repository remains private, including its business documentation and Git history. Access to the original repository is required to clone or build this submodule.
-
-```bash
-git clone --recurse-submodules https://github.com/Sergey303/demo.git
-cd demo/GosVet
+cd GosVet
 npm ci
+npm run dev
 npm run build
 ```
 
-For a checkout that already exists:
+See [GosVet/README.md](GosVet/README.md) for application routes and its portable `dist/index.html` build.
 
-```bash
-git submodule update --init GosVet
-```
-
-The original GosVet source is not published by this public demo repository. If GosVet is to be shown publicly, review its source and business documents before converting it to a regular project directory.
-
-## Repository layout
+## Layout
 
 ```text
 demo/
-  bootstrap5/         # Full Bootstrap 5 project
-  GosVet/             # Private Git submodule
-  .gitmodules
+  bootstrap5/     # Bootstrap 5 dashboard
+  GosVet/         # Veterinary clinic application
   README.md
 ```
 
-The projects are intentionally independent; do not run `npm install` at the repository root.
+Both apps are standalone. Run npm commands in the corresponding project directory rather than the repository root. The original GosVet repository is kept unchanged. Note that all committed files under `demo/GosVet/` are public because this repository is public.

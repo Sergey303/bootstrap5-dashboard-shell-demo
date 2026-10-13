@@ -1,0 +1,181 @@
+import {
+  actions,
+  animals,
+  appointments,
+  audit,
+  clinics,
+  dictionaries,
+  notifications,
+  owners,
+  submissions
+} from "../demo-data/seed";
+import {
+  addAppointmentState,
+  advanceVetisSendingState,
+  appendAudit,
+  completeOrRetry,
+  deleteAppointmentState,
+  evaluateSubmission
+} from "./reducerHelpers";
+import type {
+  Appointment,
+  AppointmentAction,
+  AuditEvent,
+  ExternalSubmission,
+  LocalDictionaryValue,
+  Notification,
+  PrimeThemeKey,
+  Role,
+  SoapField
+} from "../entities/types";
+
+export type FocusedProblem = { appointmentId: string; actionId?: string; fieldPath: string } | null;
+
+export type AppState = {
+  clinics: typeof clinics;
+  owners: typeof owners;
+  animals: typeof animals;
+  appointments: Appointment[];
+  actions: AppointmentAction[];
+  submissions: ExternalSubmission[];
+  notifications: Notification[];
+  dictionaries: LocalDictionaryValue[];
+  audit: AuditEvent[];
+  selectedClinicId: string;
+  selectedRole: Role;
+  selectedTheme: PrimeThemeKey;
+  focusedProblem: FocusedProblem;
+};
+
+export const initialState: AppState = {
+  clinics,
+  owners,
+  animals,
+  appointments,
+  actions,
+  submissions,
+  notifications,
+  dictionaries,
+  audit,
+  selectedClinicId: "clinic-akadem",
+  selectedRole: "doctor",
+  selectedTheme: "lara-light-blue",
+  focusedProblem: null
+};
+
+type Action =
+  | { type: "select_context"; clinicId: string; role: Role }
+  | { type: "select_theme"; theme: PrimeThemeKey }
+  | { type: "update_soap"; appointmentId: string; field: SoapField; value: string }
+  | { type: "update_action"; actionId: string; vaccineName?: string; vaccineSeries?: string; vaccineValidUntil?: string }
+  | { type: "add_vaccination_action"; action: AppointmentAction; submission: ExternalSubmission }
+  | { type: "add_appointment"; appointment: Appointment; action?: AppointmentAction; submission?: ExternalSubmission }
+  | { type: "delete_appointment"; appointmentId: string }
+  | { type: "save_draft"; appointmentId: string }
+  | { type: "check_readiness"; appointmentId: string }
+  | { type: "complete"; appointmentId: string }
+  | { type: "retry"; appointmentId: string }
+  | { type: "advance_vetis_sending"; appointmentId: string }
+  | { type: "open_notification"; notificationId: string }
+  | { type: "add_dictionary"; value: string }
+  | { type: "reset" };
+
+const updateActionRows = (state: AppState, action: Extract<Action, { type: "update_action" }>) => {
+  const actionsNext = state.actions.map((item) =>
+    item.id === action.actionId
+      ? {
+          ...item,
+          vaccineName: action.vaccineName ?? item.vaccineName,
+          vaccineSeries: action.vaccineSeries ?? item.vaccineSeries,
+          vaccineValidUntil: action.vaccineValidUntil ?? item.vaccineValidUntil
+        }
+      : item
+  );
+  const actionRow = actionsNext.find((item) => item.id === action.actionId);
+  const appointment = actionRow ? state.appointments.find((item) => item.id === actionRow.appointmentId) : undefined;
+  const submissionsNext = state.submissions.map((item) =>
+    item.actionId === action.actionId && actionRow ? evaluateSubmission(actionRow, item, appointment) : item
+  );
+  return { ...state, actions: actionsNext, submissions: submissionsNext };
+};
+
+export function reducer(state: AppState, action: Action): AppState {
+  if (action.type === "reset") return { ...initialState };
+  if (action.type === "select_context") return { ...state, selectedClinicId: action.clinicId, selectedRole: action.role };
+  if (action.type === "select_theme") return { ...state, selectedTheme: action.theme };
+  if (action.type === "add_appointment") return addAppointmentState(state, action.appointment, action.action, action.submission);
+  if (action.type === "delete_appointment") return deleteAppointmentState(state, action.appointmentId);
+  if (action.type === "add_vaccination_action") {
+    const appointment = state.appointments.find((item) => item.id === action.action.appointmentId);
+    return {
+      ...state,
+      actions: [...state.actions, action.action],
+      submissions: [...state.submissions, evaluateSubmission(action.action, action.submission, appointment)],
+      audit: appendAudit(state, action.action.appointmentId, "Добавлена прививка")
+    };
+  }
+  if (action.type === "add_dictionary") {
+    const exists = state.dictionaries.some((item) => item.name.toLowerCase() === action.value.toLowerCase());
+    if (exists) return state;
+    const item = { id: `dict-${Date.now()}`, code: "vaccine" as const, name: action.value, scope: "clinic" as const };
+    return { ...state, dictionaries: [...state.dictionaries, item] };
+  }
+  if (action.type === "update_soap") {
+    const appointmentsNext = state.appointments.map((item) =>
+      item.id === action.appointmentId ? { ...item, [action.field]: action.value } : item
+    );
+    const appointmentNext = appointmentsNext.find((item) => item.id === action.appointmentId);
+    const rows = state.actions.filter((item) => item.appointmentId === action.appointmentId);
+    const submissionsNext = state.submissions.map((item) => {
+      const row = rows.find((actionRow) => actionRow.id === item.actionId);
+      return item.appointmentId === action.appointmentId && row
+        ? evaluateSubmission(row, item, appointmentNext)
+        : item;
+    });
+    return { ...state, appointments: appointmentsNext, submissions: submissionsNext };
+  }
+  if (action.type === "update_action") return updateActionRows(state, action);
+  if (action.type === "save_draft") {
+    const appointment = state.appointments.find((item) => item.id === action.appointmentId);
+    const keepCompletedErrorStatus =
+      appointment?.status === "requires_external_attention" || appointment?.vetisStatus === "fill_error";
+    const appointmentsNext = state.appointments.map((item) =>
+      item.id === action.appointmentId && !keepCompletedErrorStatus ? { ...item, status: "draft" as const } : item
+    );
+    return {
+      ...state,
+      appointments: appointmentsNext,
+      audit: appendAudit(
+        state,
+        action.appointmentId,
+        keepCompletedErrorStatus ? "Правки для повторной отправки сохранены" : "Черновик сохранён"
+      )
+    };
+  }
+  if (action.type === "check_readiness") {
+    const appointment = state.appointments.find((item) => item.id === action.appointmentId);
+    const rows = state.actions.filter((item) => item.appointmentId === action.appointmentId);
+    const submissionsNext = state.submissions.map((item) => {
+      const row = rows.find((actionRow) => actionRow.id === item.actionId);
+      return item.appointmentId === action.appointmentId && row ? evaluateSubmission(row, item, appointment) : item;
+    });
+    return { ...state, submissions: submissionsNext };
+  }
+  if (action.type === "complete" || action.type === "retry") {
+    const result = completeOrRetry(state, action.appointmentId);
+    return { ...state, ...result, audit: result.event ? appendAudit(state, action.appointmentId, result.event) : state.audit };
+  }
+  if (action.type === "advance_vetis_sending") return advanceVetisSendingState(state, action.appointmentId);
+  if (action.type === "open_notification") {
+    const notif = state.notifications.find((item) => item.id === action.notificationId);
+    const submission = state.submissions.find((item) => item.appointmentId === notif?.appointmentId && item.problemFieldPath);
+    if (!notif || !submission || !submission.problemFieldPath) return state;
+    return {
+      ...state,
+      focusedProblem: { appointmentId: notif.appointmentId, actionId: submission.actionId, fieldPath: submission.problemFieldPath }
+    };
+  }
+  return state;
+}
+
+export type AppAction = Action;
